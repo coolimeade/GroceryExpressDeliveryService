@@ -1,0 +1,26 @@
+version: '3'
+services:
+  db:
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data_container:/data
+
+  api:
+    build:
+      context: ./api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+  ui:
+    build: ./ui
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+
+volumes:
+  redis_data_container:
